@@ -1,0 +1,9 @@
+"indrev"
+{
+    "base"          "base"
+    "title"         "Industrial Revolution [BETA]"
+    "maps"          ""
+    "category"      "other"
+    "menusystem"    "1"
+    "workshopid"    "2582420638"
+}

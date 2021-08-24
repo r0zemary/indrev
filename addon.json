@@ -1,0 +1,11 @@
+{
+	"title"		:	"Industrial Revolution [BETA]",
+	"type"		:	"gamemode",
+	"tags"		:	[ "fun", "build" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
