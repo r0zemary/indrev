@@ -14,7 +14,7 @@ function ENT:Initialize()
 	self:SetUseType(SIMPLE_USE)
 	self:SetToggled(false)
 	self:SetFuel(0)
-	self:SetUpgradeCost(150)
+	self:SetUpgradeCost(200)
 	self:SetMaxFuel(100)
 	self:SetUpgradeLevel(1)
 

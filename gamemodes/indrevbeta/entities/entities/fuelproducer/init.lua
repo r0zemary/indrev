@@ -12,7 +12,7 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
-	self:SetUpgradeCost(150)
+	self:SetUpgradeCost(200)
 	self:SetUpgradeLevel(1)
 	self:SetTimerInterval(15)
 

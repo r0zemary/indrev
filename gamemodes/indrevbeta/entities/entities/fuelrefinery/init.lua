@@ -15,7 +15,7 @@ function ENT:Initialize()
 	self:SetFuel(0)
 	self:SetMaxFuel(10)
 	self:SetUpgradeLevel(1)
-	self:SetUpgradeCost(150)
+	self:SetUpgradeCost(200)
 	self:SetTimerInterval(5)
 
 	self.timer = CurTime()

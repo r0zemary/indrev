@@ -195,17 +195,17 @@ net.Receive("UpgradeProducer", function(len, ply)
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(13)
 			hit:SetUpgradeLevel(2)
-			hit:SetUpgradeCost(200)
-			SetGlobalInt("money", GetGlobalInt("money") - 150)
+			hit:SetUpgradeCost(400)
+			SetGlobalInt("money", GetGlobalInt("money") - 200)
 		elseif hit:GetUpgradeLevel() == 2 then
 			hit:SetTimerInterval(11)
 			hit:SetUpgradeLevel(3)
-			hit:SetUpgradeCost(250)
-			SetGlobalInt("money", GetGlobalInt("money") - 200)
+			hit:SetUpgradeCost(600)
+			SetGlobalInt("money", GetGlobalInt("money") - 400)
 		elseif hit:GetUpgradeLevel() == 3 then
 			hit:SetTimerInterval(9)
 			hit:SetUpgradeLevel(4)
-			SetGlobalInt("money", GetGlobalInt("money") - 250)
+			SetGlobalInt("money", GetGlobalInt("money") - 600)
 		end
 	end
 end)
@@ -217,19 +217,19 @@ net.Receive("UpgradeRefinery", function(len, ply)
 			hit:SetTimerInterval(4)
 			hit:SetMaxFuel(12)
 			hit:SetUpgradeLevel(2)
-			hit:SetUpgradeCost(200)
-			SetGlobalInt("money", GetGlobalInt("money") - 150)
+			hit:SetUpgradeCost(400)
+			SetGlobalInt("money", GetGlobalInt("money") - 200)
 		elseif hit:GetUpgradeLevel() == 2 then
 			hit:SetTimerInterval(3)
 			hit:SetMaxFuel(14)
 			hit:SetUpgradeLevel(3)
-			hit:SetUpgradeCost(250)
-			SetGlobalInt("money", GetGlobalInt("money") - 200)
+			hit:SetUpgradeCost(600)
+			SetGlobalInt("money", GetGlobalInt("money") - 400)
 		elseif hit:GetUpgradeLevel() == 3 then
 			hit:SetTimerInterval(2)
 			hit:SetMaxFuel(16)
 			hit:SetUpgradeLevel(4)
-			SetGlobalInt("money", GetGlobalInt("money") - 250)
+			SetGlobalInt("money", GetGlobalInt("money") - 600)
 		end
 	end
 end)
@@ -262,19 +262,19 @@ net.Receive("UpgradeCleaner", function(len, ply)
 			hit:SetTimerInterval(17)
 			hit:SetMaxOre(5)
 			hit:SetUpgradeLevel(2)
-			hit:SetUpgradeCost(700)
+			hit:SetUpgradeCost(800)
 			SetGlobalInt("money", GetGlobalInt("money") - 600)
 		elseif hit:GetUpgradeLevel() == 2 then
 			hit:SetTimerInterval(14)
 			hit:SetMaxOre(7)
 			hit:SetUpgradeLevel(3)
-			hit:SetUpgradeCost(800)
-			SetGlobalInt("money", GetGlobalInt("money") - 700)
+			hit:SetUpgradeCost(1000)
+			SetGlobalInt("money", GetGlobalInt("money") - 800)
 		elseif hit:GetUpgradeLevel() == 3 then
 			hit:SetTimerInterval(11)
 			hit:SetMaxOre(9)
 			hit:SetUpgradeLevel(4)
-			SetGlobalInt("money", GetGlobalInt("money") - 800)
+			SetGlobalInt("money", GetGlobalInt("money") - 1000)
 		end
 	end
 end)
@@ -285,17 +285,17 @@ net.Receive("UpgradePrinter", function(len, ply)
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(0.85)
 			hit:SetUpgradeLevel(2)
-			hit:SetUpgradeCost(200)
+			hit:SetUpgradeCost(300)
 			SetGlobalInt("money", GetGlobalInt("money") - 150)
 		elseif hit:GetUpgradeLevel() == 2 then
 			hit:SetTimerInterval(0.7)
 			hit:SetUpgradeLevel(3)
-			hit:SetUpgradeCost(250)
-			SetGlobalInt("money", GetGlobalInt("money") - 200)
+			hit:SetUpgradeCost(450)
+			SetGlobalInt("money", GetGlobalInt("money") - 300)
 		elseif hit:GetUpgradeLevel() == 3 then
 			hit:SetTimerInterval(0.55)
 			hit:SetUpgradeLevel(4)
-			SetGlobalInt("money", GetGlobalInt("money") - 250)
+			SetGlobalInt("money", GetGlobalInt("money") - 450)
 		end
 	end
 end)
