@@ -56,7 +56,7 @@ function ENT:Think()
 		end
 		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
 			gencount = gencount + 1
-			tally = tally / gencount
+			tally = tally / (gencount * 0.65)
 		end
 	end
 

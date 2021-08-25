@@ -12,6 +12,8 @@ util.AddNetworkString("BuyRefinery")
 util.AddNetworkString("BuyFuel")
 util.AddNetworkString("BuyDrill")
 util.AddNetworkString("BuyCleaner")
+util.AddNetworkString("BuyDieseler")
+util.AddNetworkString("BuyRockwash")
 util.AddNetworkString("UpgradeGenerator")
 util.AddNetworkString("UpgradeProducer")
 util.AddNetworkString("UpgradeRefinery")
@@ -150,23 +152,39 @@ net.Receive("BuyCleaner", function(len, ply)
 	end
 end)
 
+net.Receive("BuyDieseler", function(len, ply)
+	local trace = ply:GetEyeTrace().HitPos
+	local dieseler = ents.Create("dieselrefinery")
+	local plypos = ply:GetPos()
+	local delta = plypos - trace
+	delta.x = math.Clamp(delta.x, -200, 200)
+	delta.y = math.Clamp(delta.y, -200, 200)
+	local result = plypos - delta
+	result.z = plypos.z + 36
+	dieseler:SetPos(result)
+	if GetGlobalInt("money") >= 500 then
+		dieseler:Spawn()
+		SetGlobalInt("money", GetGlobalInt("money") - 500)
+	end
+end)
+
 net.Receive("UpgradeGenerator", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
 	if hit:GetClass() == "indrevgenerator" and GetGlobalInt("money") > hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetMaxFuel(120)
 			hit:SetUpgradeLevel(2)
-			hit:SetUpgradeCost(200)
-			SetGlobalInt("money", GetGlobalInt("money") - 150)
+			hit:SetUpgradeCost(300)
+			SetGlobalInt("money", GetGlobalInt("money") - 200)
 		elseif hit:GetUpgradeLevel() == 2 then
 			hit:SetMaxFuel(140)
 			hit:SetUpgradeLevel(3)
-			hit:SetUpgradeCost(250)
-			SetGlobalInt("money", GetGlobalInt("money") - 200)
+			hit:SetUpgradeCost(400)
+			SetGlobalInt("money", GetGlobalInt("money") - 300)
 		elseif hit:GetUpgradeLevel() == 3 then
 			hit:SetMaxFuel(160)
 			hit:SetUpgradeLevel(4)
-			SetGlobalInt("money", GetGlobalInt("money") - 250)
+			SetGlobalInt("money", GetGlobalInt("money") - 400)
 		end
 	end
 end)
