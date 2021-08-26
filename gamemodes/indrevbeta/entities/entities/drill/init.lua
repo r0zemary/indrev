@@ -28,15 +28,15 @@ function ENT:Initialize()
 end
 
 function ENT:Think()
-	nearbyGenerator = false
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
-		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
-			nearbyGenerator = true
-		end
-	end
 	if CurTime() > self.timer + self:GetTimerInterval() then
 		self.timer = CurTime()
 		self:SetTimerProgress(self.timer)
+		nearbyGenerator = false
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				nearbyGenerator = true
+			end
+		end
 		if nearbyGenerator == true then
 			local ore = ents.Create("ore")
 			ore:SetPos(self:LocalToWorld(Vector(55,0,30)))

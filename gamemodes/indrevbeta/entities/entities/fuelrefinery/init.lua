@@ -37,15 +37,16 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:Think()
-	nearbyGenerator = false
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
-		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
-			nearbyGenerator = true
-		end
-	end
+
 	if CurTime() > self.timer + self:GetTimerInterval() then
 		self.timer = CurTime()
 		self:SetTimerProgress(self.timer)
+		nearbyGenerator = false
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				nearbyGenerator = true
+			end
+		end
 		if self:GetFuel() > 0 and nearbyGenerator == true then
 			self:SetFuel(self:GetFuel() - 1)
 			local fuel = ents.Create("fuel")

@@ -48,20 +48,20 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:Think()
-	local tally = 0
-	local gencount = 1
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
-		if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" or v:GetClass() == "drill" or v:GetClass() == "cleaner" or v:GetClass() == "dieselrefinery" then
-			tally = tally + 1
-		end
-		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
-			gencount = gencount + 1
-			tally = tally / (gencount * 0.65)
-		end
-	end
 
 	if self:GetFuel() > 0 and self:GetToggled() == true and CurTime() > self.timer + interval then
 		self.timer = CurTime()
+		local tally = 0
+		local gencount = 1
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+			if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" or v:GetClass() == "drill" or v:GetClass() == "cleaner" or v:GetClass() == "dieselrefinery" then
+				tally = tally + 1
+			end
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				gencount = gencount + 1
+				tally = tally / (gencount * 0.65)
+			end
+		end
 		self:SetFuel(self:GetFuel() - (1 + tally))
 	elseif self:GetFuel() <= 0 and self:GetToggled() == true then
 		self:SetToggled(false)

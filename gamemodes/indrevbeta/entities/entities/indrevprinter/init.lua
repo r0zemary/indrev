@@ -33,19 +33,18 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:Think()
-	nearbyGenerator = false
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
-		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
-			nearbyGenerator = true
+	if CurTime() > self.timer + self:GetTimerInterval() then
+		self.timer = CurTime()
+		nearbyGenerator = false
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				nearbyGenerator = true
+			end
+		end
+		if nearbyGenerator == true then
+			self:SetStoredMoney(self:GetStoredMoney() + 1)
 		end
 	end
-	if CurTime() > self.timer + self:GetTimerInterval() and nearbyGenerator == true then
-		self.timer = CurTime()
-
-		self:SetStoredMoney(self:GetStoredMoney() + 1)
-		nearbyGenerator = false
-	end
-
 end
 
 function ENT:Use(a,c)
