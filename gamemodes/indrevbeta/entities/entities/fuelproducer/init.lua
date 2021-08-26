@@ -4,8 +4,6 @@ AddCSLuaFile("imgui.lua")
 
 include("shared.lua")
 
-local nearbyGenerator = false
-
 function ENT:Initialize()
 	self:SetModel("models/props_wasteland/laundry_washer001a.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -30,7 +28,7 @@ function ENT:Think()
 	if CurTime() > self.timer + self:GetTimerInterval() then
 		self.timer = CurTime()
 		self:SetTimerProgress(self.timer)
-		nearbyGenerator = false
+		local nearbyGenerator = false
 		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
 			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
 				nearbyGenerator = true
