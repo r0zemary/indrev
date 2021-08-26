@@ -39,7 +39,7 @@ function ENT:Think()
 			local ore = ents.Create("ore")
 			ore:SetPos(self:LocalToWorld(Vector(55,0,30)))
 			ore:Spawn()
-			self:EmitSound("items/suitchargeno1.wav")
+			self:EmitSound("physics/plastic/plastic_barrel_break2.wav")
 		end
 	end
 end

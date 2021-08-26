@@ -13,7 +13,8 @@ util.AddNetworkString("BuyFuel")
 util.AddNetworkString("BuyDrill")
 util.AddNetworkString("BuyCleaner")
 util.AddNetworkString("BuyDieseler")
-util.AddNetworkString("BuyRockwash")
+util.AddNetworkString("BuyShredder")
+util.AddNetworkString("BuyTerminal")
 util.AddNetworkString("UpgradeGenerator")
 util.AddNetworkString("UpgradeProducer")
 util.AddNetworkString("UpgradeRefinery")
@@ -39,22 +40,21 @@ end)
 SetGlobalInt("money", 500)
 
 net.Receive("BuyGenerator", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local gen = ents.Create("indrevgenerator")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	print(delta)
-	local result = plypos - delta
-	result.z = plypos.z + 16
-	gen:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 90
-	gen:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 100 then
+		local trace = ply:GetEyeTrace().HitPos
+		local gen = ents.Create("indrevgenerator")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 16
+		gen:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 90
+		gen:SetAngles(aimvector)
 		gen:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
 	end
@@ -62,147 +62,168 @@ net.Receive("BuyGenerator", function(len, ply)
 end)
 
 net.Receive("BuyFuelProducer", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local fuel = ents.Create("fuelproducer")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 50
-	fuel:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 180
-	fuel:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 100 then
+		local trace = ply:GetEyeTrace().HitPos
+		local fuel = ents.Create("fuelproducer")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 50
+		fuel:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		fuel:SetAngles(aimvector)
 		fuel:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
 	end
 end)
 
 net.Receive("BuyPrinter", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local printer = ents.Create("indrevprinter")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-			result.z = plypos.z + 48
-			printer:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		printer:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 200 then
+		local trace = ply:GetEyeTrace().HitPos
+		local printer = ents.Create("indrevprinter")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+			delta.x = math.Clamp(delta.x, -200, 200)
+			delta.y = math.Clamp(delta.y, -200, 200)
+			local result = plypos - delta
+				result.z = plypos.z + 48
+				printer:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+			aimvector.p = 0
+			aimvector.r = 0
+			aimvector.y = aimvector.y - 180
+			printer:SetAngles(aimvector)
 		printer:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 200)
 	end
 end)
 
+net.Receive("BuyTerminal", function(len, ply)
+	if GetGlobalInt("money") >= 500 then
+		local trace = ply:GetEyeTrace().HitPos
+		local printer = ents.Create("printerterminal")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+			delta.x = math.Clamp(delta.x, -200, 200)
+			delta.y = math.Clamp(delta.y, -200, 200)
+			local result = plypos - delta
+				result.z = plypos.z + 48
+				printer:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+			aimvector.p = 0
+			aimvector.r = 0
+			aimvector.y = aimvector.y - 180
+			printer:SetAngles(aimvector)
+		printer:Spawn()
+		SetGlobalInt("money", GetGlobalInt("money") - 500)
+	end
+end)
+
 net.Receive("BuyRefinery", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local refinery = ents.Create("fuelrefinery")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 30
-	refinery:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 180
-	refinery:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 50 then
+		local trace = ply:GetEyeTrace().HitPos
+		local refinery = ents.Create("fuelrefinery")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 30
+		refinery:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		refinery:SetAngles(aimvector)
 		refinery:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 50)
 	end
 end)
 
 net.Receive("BuyFuel", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local fuel = ents.Create("fuel")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 24
-	fuel:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 180
-	fuel:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 25 then
+		local trace = ply:GetEyeTrace().HitPos
+		local fuel = ents.Create("fuel")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 24
+		fuel:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		fuel:SetAngles(aimvector)
 		fuel:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 25)
 	end
 end)
 
 net.Receive("BuyDrill", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local drill = ents.Create("drill")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 60
-	drill:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 180
-	drill:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 1000 then
+		local trace = ply:GetEyeTrace().HitPos
+		local drill = ents.Create("drill")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 60
+		drill:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		drill:SetAngles(aimvector)
 		drill:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 1000)
 	end
 end)
 
 net.Receive("BuyCleaner", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local cleaner = ents.Create("cleaner")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 36
-	cleaner:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 270
-	cleaner:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 500 then
+		local trace = ply:GetEyeTrace().HitPos
+		local cleaner = ents.Create("cleaner")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 36
+		cleaner:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 270
+		cleaner:SetAngles(aimvector)
 		cleaner:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
 	end
 end)
 
 net.Receive("BuyDieseler", function(len, ply)
-	local trace = ply:GetEyeTrace().HitPos
-	local dieseler = ents.Create("dieselrefinery")
-	local plypos = ply:GetPos()
-	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 36
-	dieseler:SetPos(result)
-	local aimvector = ply:LocalEyeAngles()
-	aimvector.p = 0
-	aimvector.r = 0
-	aimvector.y = aimvector.y - 180
-	dieseler:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 500 then
+		local trace = ply:GetEyeTrace().HitPos
+		local dieseler = ents.Create("dieselrefinery")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 36
+		dieseler:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		dieseler:SetAngles(aimvector)
 		dieseler:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
 	end
@@ -362,8 +383,8 @@ end
 
 
 
-function GM:PlayerInitialSpawn()
-
+function GM:PlayerInitialSpawn(ply, trns)
+	ply:ChatPrint("Welcome to Industrial Revolution! Press F3 to purchase machines and F4 while looking at them to upgrade them.")
 end
 
 function GiveMoney(ply, cmd, args)

@@ -50,7 +50,7 @@ function ENT:Think()
 			local fuel = ents.Create("fuel")
 			fuel:SetPos(self:LocalToWorld(Vector(0,0,50)))
 			fuel:Spawn()
-			self:EmitSound("buttons/button4.wav")
+			self:EmitSound("ambient/machines/machine1_hit1.wav")
 		end
 	end
 

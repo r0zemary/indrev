@@ -38,7 +38,7 @@ function ENT:Think()
 			local fuel = ents.Create("unrefinedfuel")
 			fuel:SetPos(self:LocalToWorld(Vector(0,0,55)))
 			fuel:Spawn()
-			self:EmitSound("items/suitchargeno1.wav")
+			self:EmitSound("physics/plastic/plastic_barrel_break2.wav", 75, 150)
 		end
 	end
 end

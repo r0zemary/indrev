@@ -8,6 +8,7 @@ local function OpenMenu()
 		frame:MakePopup()
 		frame:SetTitle("Shop")
 		frame:SetVisible(true)
+		frame:SetDeleteOnClose(true)
 
 	local genbutton = vgui.Create("DButton", frame)
 		genbutton:SetPos(10, 30)
@@ -18,6 +19,7 @@ local function OpenMenu()
 		genbutton.DoClick = function()
 			net.Start("BuyGenerator")
 			net.SendToServer()
+			frame:Close()
 		end
 	local fuelprodbutton = vgui.Create("DButton", frame)
 		fuelprodbutton:SetPos(100,30)
@@ -28,6 +30,7 @@ local function OpenMenu()
 		fuelprodbutton.DoClick = function()
 			net.Start("BuyFuelProducer")
 			net.SendToServer()
+			frame:Close()
 		end
 	local printerbutton = vgui.Create("DButton", frame)
 		printerbutton:SetPos(190,30)
@@ -38,6 +41,18 @@ local function OpenMenu()
 		printerbutton.DoClick = function()
 			net.Start("BuyPrinter")
 			net.SendToServer()
+			frame:Close()
+		end
+	local terminalbutton = vgui.Create("DButton", frame)
+		terminalbutton:SetPos(190,120)
+		terminalbutton:SetSize(80,80)
+		terminalbutton:SetVisible(true)
+		terminalbutton:SetText("Printer Terminal")
+		terminalbutton:SetTooltip("$500")
+		terminalbutton.DoClick = function()
+			net.Start("BuyTerminal")
+			net.SendToServer()
+			frame:Close()
 		end
 	local refinerybutton = vgui.Create("DButton", frame)
 		refinerybutton:SetPos(280,30)
@@ -48,6 +63,7 @@ local function OpenMenu()
 		refinerybutton.DoClick = function()
 			net.Start("BuyRefinery")
 			net.SendToServer()
+			frame:Close()
 		end
 	local fuelbutton = vgui.Create("DButton", frame)
 		fuelbutton:SetPos(370,30)
@@ -58,6 +74,7 @@ local function OpenMenu()
 		fuelbutton.DoClick = function()
 			net.Start("BuyFuel")
 			net.SendToServer()
+			frame:Close()
 		end
 	local drillbutton = vgui.Create("DButton", frame)
 		drillbutton:SetPos(460,30)
@@ -68,6 +85,7 @@ local function OpenMenu()
 		drillbutton.DoClick = function()
 			net.Start("BuyDrill")
 			net.SendToServer()
+			frame:Close()
 		end
 	local cleanerbutton = vgui.Create("DButton", frame)
 		cleanerbutton:SetPos(550,30)
@@ -78,6 +96,7 @@ local function OpenMenu()
 		cleanerbutton.DoClick = function()
 			net.Start("BuyCleaner")
 			net.SendToServer()
+			frame:Close()
 		end
 	local dieselerbutton = vgui.Create("DButton", frame)
 		dieselerbutton:SetPos(640, 30)
@@ -88,6 +107,7 @@ local function OpenMenu()
 		dieselerbutton.DoClick = function()
 			net.Start("BuyDieseler")
 			net.SendToServer()
+			frame:Close()
 		end
 	local resetbutton = vgui.Create("DButton", frame)
 		resetbutton:SetPos(910,630)
@@ -98,7 +118,9 @@ local function OpenMenu()
 			RunConsoleCommand("stopsound")
 			net.Start("ResetMoney")
 			net.SendToServer()
+			frame:Close()
 		end
+	frame:ShowCloseButton(true)
 end
 
 local function UpgradeMenu()
@@ -119,46 +141,46 @@ local function UpgradeMenu()
 		upgradebutton.DoClick = function()
 			net.Start("UpgradeGenerator")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	elseif hit:GetClass() == "fuelproducer" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
 		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
 		upgradebutton.DoClick = function()
 			net.Start("UpgradeProducer")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	elseif hit:GetClass() == "fuelrefinery" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
 		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
 		upgradebutton.DoClick = function()
 			net.Start("UpgradeRefinery")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	elseif hit:GetClass() == "drill" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
 		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
 		upgradebutton.DoClick = function()
 			net.Start("UpgradeDrill")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	elseif hit:GetClass() == "cleaner" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
 		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
 		upgradebutton.DoClick = function()
 			net.Start("UpgradeCleaner")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	elseif hit:GetClass() == "indrevprinter" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
 		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
 		upgradebutton.DoClick = function()
 			net.Start("UpgradePrinter")
 			net.SendToServer()
-			frame:SetVisible(false)
+			frame:Close()
 		end
 	else
 		upgradebutton:SetText("MAX UPGRADED")
-		upgradebutton.DoClick = function() frame:SetVisible(false)
+		upgradebutton.DoClick = function() frame:Close()
 	end
 end
 end
@@ -210,5 +232,3 @@ function HideHud(name)
 	end
 end
 hook.Add("HUDShouldDraw", "HideDefaultHud", HideHud)
-
-LocalPlayer():ChatPrint("Welcome to Industrial Revolution! Press F3 to purchase machines and F4 while looking at them to upgrade them.")

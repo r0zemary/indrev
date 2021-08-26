@@ -27,6 +27,7 @@ function ENT:StartTouch(ent)
 	if ent:GetClass() == "cleansedore" then
 		ent:Remove()
 		self:SetStoredMoney(self:GetStoredMoney() + ent:GetOreValue())
+		self:EmitSound("ambient/levels/labs/electric_explosion5.wav")
 	end
 end
 
@@ -46,6 +47,9 @@ function ENT:Think()
 end
 
 function ENT:Use(a,c)
+	for k,v in pairs(ents.FindByClass("printerterminal")) do
+		v:SetStoredMoney(v:GetStoredMoney() - self:GetStoredMoney())
+	end
 	SetGlobalInt("money", GetGlobalInt("money") + self:GetStoredMoney())
 	if self:GetStoredMoney() > 0 then
 		self:EmitSound("ambient/levels/labs/coinslot1.wav")

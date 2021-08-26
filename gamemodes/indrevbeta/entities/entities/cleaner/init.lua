@@ -32,6 +32,15 @@ function ENT:StartTouch(ent)
 		ent:Remove()
 		self:SetStoredOre(self:GetStoredOre() + 1)
 		self:SetStoredOre(math.Clamp(self:GetStoredOre(), 0, self:GetMaxOre()))
+		local nearbyGenerator = false
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				nearbyGenerator = true
+			end
+		end
+		if nearbyGenerator == true then
+			self:EmitSound("ambient/machines/machine_whine1.wav")
+		end
 	end
 end
 
@@ -52,7 +61,7 @@ function ENT:Think()
 			ore:SetOreValue(20 * self:GetUpgradeLevel())
 			ore:Spawn()
 			self.timer = CurTime()
-			self:EmitSound("buttons/button4.wav")
+			self:StopSound("ambient/machines/machine_whine1.wav")
 		end
 	end
 
