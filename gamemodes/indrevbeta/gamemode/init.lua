@@ -49,6 +49,11 @@ net.Receive("BuyGenerator", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 16
 	gen:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 90
+	gen:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 100 then
 		gen:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
@@ -66,6 +71,11 @@ net.Receive("BuyFuelProducer", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 50
 	fuel:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 180
+	fuel:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 100 then
 		fuel:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
@@ -77,11 +87,16 @@ net.Receive("BuyPrinter", function(len, ply)
 	local printer = ents.Create("indrevprinter")
 	local plypos = ply:GetPos()
 	local delta = plypos - trace
-	delta.x = math.Clamp(delta.x, -200, 200)
-	delta.y = math.Clamp(delta.y, -200, 200)
-	local result = plypos - delta
-	result.z = plypos.z + 48
-	printer:SetPos(result)
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+			result.z = plypos.z + 48
+			printer:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		printer:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 200 then
 		printer:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 200)
@@ -96,8 +111,13 @@ net.Receive("BuyRefinery", function(len, ply)
 	delta.x = math.Clamp(delta.x, -200, 200)
 	delta.y = math.Clamp(delta.y, -200, 200)
 	local result = plypos - delta
-	result.z = plypos.z + 24
+	result.z = plypos.z + 30
 	refinery:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 180
+	refinery:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 50 then
 		refinery:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 50)
@@ -114,6 +134,11 @@ net.Receive("BuyFuel", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 24
 	fuel:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 180
+	fuel:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 25 then
 		fuel:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 25)
@@ -130,6 +155,11 @@ net.Receive("BuyDrill", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 60
 	drill:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 180
+	drill:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 1000 then
 		drill:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 1000)
@@ -146,6 +176,11 @@ net.Receive("BuyCleaner", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 36
 	cleaner:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 270
+	cleaner:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 500 then
 		cleaner:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
@@ -162,6 +197,11 @@ net.Receive("BuyDieseler", function(len, ply)
 	local result = plypos - delta
 	result.z = plypos.z + 36
 	dieseler:SetPos(result)
+	local aimvector = ply:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - 180
+	dieseler:SetAngles(aimvector)
 	if GetGlobalInt("money") >= 500 then
 		dieseler:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
@@ -170,7 +210,7 @@ end)
 
 net.Receive("UpgradeGenerator", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "indrevgenerator" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "indrevgenerator" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetMaxFuel(120)
 			hit:SetUpgradeLevel(2)
@@ -191,7 +231,7 @@ end)
 
 net.Receive("UpgradeProducer", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "fuelproducer" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "fuelproducer" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(13)
 			hit:SetUpgradeLevel(2)
@@ -212,7 +252,7 @@ end)
 
 net.Receive("UpgradeRefinery", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "fuelrefinery" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "fuelrefinery" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(4)
 			hit:SetMaxFuel(12)
@@ -236,7 +276,7 @@ end)
 
 net.Receive("UpgradeDrill", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "drill" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "drill" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(22)
 			hit:SetUpgradeLevel(2)
@@ -257,7 +297,7 @@ end)
 
 net.Receive("UpgradeCleaner", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "cleaner" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "cleaner" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(17)
 			hit:SetMaxOre(5)
@@ -281,7 +321,7 @@ end)
 
 net.Receive("UpgradePrinter", function(len, ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "indrevprinter" and GetGlobalInt("money") > hit:GetUpgradeCost() then
+	if hit:GetClass() == "indrevprinter" and GetGlobalInt("money") >= hit:GetUpgradeCost() then
 		if hit:GetUpgradeLevel() == 1 then
 			hit:SetTimerInterval(0.85)
 			hit:SetUpgradeLevel(2)
