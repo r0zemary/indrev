@@ -50,8 +50,8 @@ end
 function ENT:Think()
 	local tally = 0
 	local gencount = 1
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
-		if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" then
+	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1500)) do
+		if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" or v:GetClass() == "drill" or v:GetClass() == "cleaner" or v:GetClass() == "dieselrefinery" then
 			tally = tally + 1
 		end
 		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then

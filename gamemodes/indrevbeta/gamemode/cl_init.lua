@@ -177,7 +177,7 @@ local tally = 0
 hook.Add("Think", "GetMachines", function()
 	tally = 0
 	for k,v in pairs(ents.GetAll()) do
-		if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" or v:GetClass() == "indrevgenerator" then
+		if v:IsValid() and v:GetClass() == "indrevprinter" or v:GetClass() == "fuelrefinery" or v:GetClass() == "fuelproducer" or v:GetClass() == "indrevgenerator" or v:GetClass() == "drill" or v:GetClass() == "cleaner" or v:GetClass() == "dieselrefinery" then
 			tally = tally + 1
 		end
 	end
@@ -210,3 +210,5 @@ function HideHud(name)
 	end
 end
 hook.Add("HUDShouldDraw", "HideDefaultHud", HideHud)
+
+LocalPlayer():ChatPrint("Welcome to Industrial Revolution! Press F3 to purchase machines and F4 while looking at them to upgrade them.")
