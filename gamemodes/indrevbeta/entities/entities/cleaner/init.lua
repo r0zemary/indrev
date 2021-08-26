@@ -38,15 +38,15 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:Think()
-	nearbyGenerator = false
-	for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
-		if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
-			nearbyGenerator = true
-		end
-	end
 	if CurTime() > self.timer + self:GetTimerInterval() then
 		self.timer = CurTime()
 		self:SetTimerProgress(self.timer)
+		nearbyGenerator = false
+		for k,v in pairs(ents.FindInSphere(self:GetPos(), 1000)) do
+			if v:IsValid() and v:GetClass() == "indrevgenerator" and v:GetToggled() == true then
+				nearbyGenerator = true
+			end
+		end
 		if self:GetStoredOre() > 0 and nearbyGenerator == true then
 			self:SetStoredOre(self:GetStoredOre() - 1)
 			local ore = ents.Create("cleansedore")
