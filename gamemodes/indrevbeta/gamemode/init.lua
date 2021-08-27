@@ -15,6 +15,7 @@ util.AddNetworkString("BuyCleaner")
 util.AddNetworkString("BuyDieseler")
 util.AddNetworkString("BuyShredder")
 util.AddNetworkString("BuyTerminal")
+util.AddNetworkString("BuyCompactor")
 util.AddNetworkString("UpgradeGenerator")
 util.AddNetworkString("UpgradeProducer")
 util.AddNetworkString("UpgradeRefinery")
@@ -145,6 +146,27 @@ net.Receive("BuyRefinery", function(len, ply)
 	end
 end)
 
+net.Receive("BuyCompactor", function(len, ply)
+	if GetGlobalInt("money") >= 1000 then
+		local trace = ply:GetEyeTrace().HitPos
+		local refinery = ents.Create("compactor")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 30
+		refinery:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		refinery:SetAngles(aimvector)
+		refinery:Spawn()
+		SetGlobalInt("money", GetGlobalInt("money") - 1000)
+	end
+end)
+
 net.Receive("BuyFuel", function(len, ply)
 	if GetGlobalInt("money") >= 25 then
 		local trace = ply:GetEyeTrace().HitPos
@@ -226,6 +248,27 @@ net.Receive("BuyDieseler", function(len, ply)
 		dieseler:SetAngles(aimvector)
 		dieseler:Spawn()
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
+	end
+end)
+
+net.Receive("BuyShredder", function(len, ply)
+	if GetGlobalInt("money") >= 1500 then
+		local trace = ply:GetEyeTrace().HitPos
+		local drill = ents.Create("shredder")
+		local plypos = ply:GetPos()
+		local delta = plypos - trace
+		delta.x = math.Clamp(delta.x, -200, 200)
+		delta.y = math.Clamp(delta.y, -200, 200)
+		local result = plypos - delta
+		result.z = plypos.z + 60
+		drill:SetPos(result)
+		local aimvector = ply:LocalEyeAngles()
+		aimvector.p = 0
+		aimvector.r = 0
+		aimvector.y = aimvector.y - 180
+		drill:SetAngles(aimvector)
+		drill:Spawn()
+		SetGlobalInt("money", GetGlobalInt("money") - 1500)
 	end
 end)
 

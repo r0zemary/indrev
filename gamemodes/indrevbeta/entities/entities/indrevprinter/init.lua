@@ -28,6 +28,14 @@ function ENT:StartTouch(ent)
 		ent:Remove()
 		self:SetStoredMoney(self:GetStoredMoney() + ent:GetOreValue())
 		self:EmitSound("ambient/levels/labs/electric_explosion5.wav")
+	elseif ent:GetClass() == "scrapmetal" then
+		ent:Remove()
+		self:SetStoredMoney(self:GetStoredMoney() + 120)
+		self:EmitSound("ambient/levels/labs/electric_explosion5.wav")
+	elseif ent:GetClass() == "refinedmetal" then
+		ent:Remove()
+		self:SetStoredMoney(self:GetStoredMoney() + 300)
+		self:EmitSound("ambient/levels/labs/electric_explosion5.wav")
 	end
 end
 

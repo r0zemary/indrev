@@ -4,7 +4,7 @@ local imgui = include("imgui.lua")
 function ENT:Draw()
 	self:DrawModel()
 
-	if imgui.Entity3D2D(self, Vector(-20,-36,30), Angle(0, 0, 90), 0.2) then
+	if imgui.Entity3D2D(self, Vector(-20,-36,40), Angle(0, 0, 90), 0.2) then
 		local WorkPercent = math.Clamp((CurTime() - self:GetTimerProgress()) / self:GetTimerInterval(), 0, 1)
 		draw.RoundedBox(0,0,50,150,30,Color(10,10,10))
 		draw.RoundedBox(0,0,50,WorkPercent * 150,30,Color(120,120,255))
