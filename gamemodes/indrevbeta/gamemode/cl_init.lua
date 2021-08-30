@@ -200,6 +200,27 @@ local function UpgradeMenu()
 			net.SendToServer()
 			frame:Close()
 		end
+	elseif hit:GetClass() == "shredder" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
+		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
+		upgradebutton.DoClick = function()
+			net.Start("UpgradeShredder")
+			net.SendToServer()
+			frame:Close()
+		end
+	elseif hit:GetClass() == "dieselrefinery" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
+		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
+		upgradebutton.DoClick = function()
+			net.Start("UpgradeDieseler")
+			net.SendToServer()
+			frame:Close()
+		end
+	elseif hit:GetClass() == "compactor" and hit:GetUpgradeLevel() < 4 and hit:IsValid() then
+		upgradebutton:SetText("Upgrade: " .. hit:GetUpgradeCost())
+		upgradebutton.DoClick = function()
+			net.Start("UpgradeCompactor")
+			net.SendToServer()
+			frame:Close()
+		end
 	else
 		upgradebutton:SetText("MAX UPGRADED")
 		upgradebutton.DoClick = function() frame:Close()

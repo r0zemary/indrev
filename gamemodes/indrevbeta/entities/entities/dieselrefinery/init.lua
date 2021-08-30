@@ -15,7 +15,7 @@ function ENT:Initialize()
 	self:SetFuel(0)
 	self:SetMaxFuel(10)
 	self:SetUpgradeLevel(1)
-	self:SetUpgradeCost(150)
+	self:SetUpgradeCost(500)
 	self:SetTimerInterval(8)
 	self:SetColor(Color(120,120,120))
 

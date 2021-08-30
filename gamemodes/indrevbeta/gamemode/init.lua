@@ -22,8 +22,19 @@ util.AddNetworkString("UpgradeRefinery")
 util.AddNetworkString("UpgradeDrill")
 util.AddNetworkString("UpgradeCleaner")
 util.AddNetworkString("UpgradePrinter")
+util.AddNetworkString("UpgradeShredder")
+util.AddNetworkString("UpgradeCompactor")
+util.AddNetworkString("UpgradeDieseler")
 util.AddNetworkString("ResetMoney")
 
+local function has_value (tab, val)
+	for index, value in ipairs(tab) do
+		if value == val then
+			return true
+		end
+	end
+	return false
+end
 
 hook.Add("ShowSpare1", "Spare1Menu", function(ply)
 	net.Start("OpenMenu")
@@ -32,7 +43,16 @@ end)
 
 hook.Add("ShowSpare2", "Spare2Menu", function(ply)
 	local hit = ply:GetEyeTrace().Entity
-	if hit:GetClass() == "indrevgenerator" or hit:GetClass() == "indrevprinter" or hit:GetClass() == "fuelproducer" or hit:GetClass() == "fuelrefinery" or hit:GetClass() == "drill" or hit:GetClass() == "cleaner" then
+	upgradeable = {"indrevgenerator",
+	"indrevprinter",
+	"fuelproducer",
+	"fuelrefinery",
+	"drill",
+	"cleaner",
+	"shredder",
+	"compactor",
+	"dieselrefinery"}
+	if has_value(upgradeable, hit:GetClass()) then
 		net.Start("UpgradeMenu")
 		net.Send(ply)
 	end
@@ -404,14 +424,66 @@ net.Receive("UpgradePrinter", function(len, ply)
 	end
 end)
 
+net.Receive("UpgradeShredder", function(len, ply)
+	local hit = ply:GetEyeTrace().Entity
+	if hit:GetClass() == "shredder" and GetGlobalInt("money") >= hit:GetUpgradeCost() and hit:GetUpgradeLevel() < 4 then
+		SetGlobalInt("money", GetGlobalInt("money") - hit:GetUpgradeCost())
+		hit:SetTimerInterval(hit:GetTimerInterval() - 1)
+		hit:SetMaxOre(hit:GetMaxOre() + 2)
+		hit:SetMaxFuel(hit:GetMaxFuel() + 15)
+		hit:SetUpgradeCost(hit:GetUpgradeCost() + 500)
+		hit:SetUpgradeLevel(hit:GetUpgradeLevel() + 1)
+	end
+end)
+
+net.Receive("UpgradeCompactor", function(len, ply)
+	local hit = ply:GetEyeTrace().Entity
+	if hit:GetClass() == "compactor" and GetGlobalInt("money") >= hit:GetUpgradeCost() and hit:GetUpgradeLevel() < 4 then
+		SetGlobalInt("money", GetGlobalInt("money") - hit:GetUpgradeCost())
+		hit:SetTimerInterval(hit:GetTimerInterval() - 1)
+		hit:SetMaxMetal(hit:GetMaxMetal() + 2)
+		hit:SetUpgradeLevel(hit:GetUpgradeLevel() + 1)
+		hit:SetUpgradeCost(hit:GetUpgradeCost() + 500)
+	end
+end)
+
+net.Receive("UpgradeDieseler", function(len, ply)
+	local hit = ply:GetEyeTrace().Entity
+	if hit:GetClass() == "dieselrefinery" and GetGlobalInt("money") >= hit:GetUpgradeCost() and hit:GetUpgradeLevel() < 4 then
+		SetGlobalInt("money", GetGlobalInt("money") - hit:GetUpgradeCost())
+		hit:SetTimerInterval(hit:GetTimerInterval() - 1)
+		hit:SetMaxFuel(hit:GetMaxFuel() + 2)
+		hit:SetUpgradeLevel(hit:GetUpgradeLevel() + 1)
+		hit:SetUpgradeCost(hit:GetUpgradeCost() + 500)
+	end
+end)
+
 net.Receive("ResetMoney", function(len, ply)
 	SetGlobalInt("money", 500)
+	local indrevents = {"cleaner",
+	"cleansedore",
+	"compactor",
+	"diesel",
+	"dieselrefinery",
+	"drill",
+	"fuel",
+	"fuelproducer",
+	"fuelrefinery",
+	"gear",
+	"indrevgenerator",
+	"indrevprinter",
+	"ore",
+	"printerterminal",
+	"refinedmetal",
+	"scrapmetal",
+	"shredder",
+	"strongmetal",
+	"unrefinedfuel"}
 	for k,v in pairs(ents.GetAll()) do
-		if v:GetClass() == "fuelproducer" or v:GetClass() == "fuel" or v:GetClass() == "fuelrefinery" or v:GetClass() == "indrevprinter" or v:GetClass() == "indrevgenerator" or v:GetClass() == "unrefinedfuel" or v:GetClass() == "drill" or v:GetClass() == "cleaner" or v:GetClass() == "ore" or v:GetClass() == "cleansedore" then
+		if has_value(indrevents, v:GetClass()) then
 			v:Remove()
 		end
 	end
-
 end)
 
 function GM:PlayerSpawn(ply)
@@ -436,3 +508,9 @@ function GiveMoney(ply, cmd, args)
 	end
 end
 concommand.Add("givemoney", GiveMoney, nil, "nil", 16384)
+function SetMoney(ply, cmd, args)
+	if args[1] then
+		SetGlobalInt("money", 0 + args[1])
+	end
+end
+concommand.Add("setmoney", SetMoney, nil, "nil", 16384)
