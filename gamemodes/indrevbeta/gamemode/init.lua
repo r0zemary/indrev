@@ -36,6 +36,24 @@ local function has_value (tab, val)
 	return false
 end
 
+local function BuyEntity(ent, plyr, offset, ang)
+	local trace = plyr:GetEyeTrace().HitPos
+	local bought = ents.Create(ent)
+	local plypos = plyr:GetPos()
+	local delta = plypos - trace
+	delta.x = math.Clamp(delta.x, -200, 200)
+	delta.y = math.Clamp(delta.y, -200, 200)
+	local result = plypos - delta
+	result.z = plypos.z + offset
+	bought:SetPos(result)
+	local aimvector = plyr:LocalEyeAngles()
+	aimvector.p = 0
+	aimvector.r = 0
+	aimvector.y = aimvector.y - ang
+	bought:SetAngles(aimvector)
+	bought:Spawn()
+end
+
 hook.Add("ShowSpare1", "Spare1Menu", function(ply)
 	net.Start("OpenMenu")
 	net.Send(ply)
@@ -62,21 +80,7 @@ SetGlobalInt("money", 500)
 
 net.Receive("BuyGenerator", function(len, ply)
 	if GetGlobalInt("money") >= 100 then
-		local trace = ply:GetEyeTrace().HitPos
-		local gen = ents.Create("indrevgenerator")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 16
-		gen:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 90
-		gen:SetAngles(aimvector)
-		gen:Spawn()
+		BuyEntity("indrevgenerator", ply, 16, 90)
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
 	end
 
@@ -84,210 +88,70 @@ end)
 
 net.Receive("BuyFuelProducer", function(len, ply)
 	if GetGlobalInt("money") >= 100 then
-		local trace = ply:GetEyeTrace().HitPos
-		local fuel = ents.Create("fuelproducer")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 50
-		fuel:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		fuel:SetAngles(aimvector)
-		fuel:Spawn()
+		BuyEntity("fuelproducer", ply, 50, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 100)
 	end
 end)
 
 net.Receive("BuyPrinter", function(len, ply)
 	if GetGlobalInt("money") >= 200 then
-		local trace = ply:GetEyeTrace().HitPos
-		local printer = ents.Create("indrevprinter")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-			delta.x = math.Clamp(delta.x, -200, 200)
-			delta.y = math.Clamp(delta.y, -200, 200)
-			local result = plypos - delta
-				result.z = plypos.z + 48
-				printer:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-			aimvector.p = 0
-			aimvector.r = 0
-			aimvector.y = aimvector.y - 180
-			printer:SetAngles(aimvector)
-		printer:Spawn()
+		BuyEntity("indrevprinter", ply, 48, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 200)
 	end
 end)
 
 net.Receive("BuyTerminal", function(len, ply)
 	if GetGlobalInt("money") >= 500 then
-		local trace = ply:GetEyeTrace().HitPos
-		local printer = ents.Create("printerterminal")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-			delta.x = math.Clamp(delta.x, -200, 200)
-			delta.y = math.Clamp(delta.y, -200, 200)
-			local result = plypos - delta
-				result.z = plypos.z + 48
-				printer:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-			aimvector.p = 0
-			aimvector.r = 0
-			aimvector.y = aimvector.y - 180
-			printer:SetAngles(aimvector)
-		printer:Spawn()
+		BuyEntity("printerterminal", ply, 48, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
 	end
 end)
 
 net.Receive("BuyRefinery", function(len, ply)
 	if GetGlobalInt("money") >= 50 then
-		local trace = ply:GetEyeTrace().HitPos
-		local refinery = ents.Create("fuelrefinery")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 30
-		refinery:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		refinery:SetAngles(aimvector)
-		refinery:Spawn()
+		BuyEntity("fuelrefinery", ply, 30, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 50)
 	end
 end)
 
 net.Receive("BuyCompactor", function(len, ply)
 	if GetGlobalInt("money") >= 1000 then
-		local trace = ply:GetEyeTrace().HitPos
-		local refinery = ents.Create("compactor")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 30
-		refinery:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		refinery:SetAngles(aimvector)
-		refinery:Spawn()
+		BuyEntity("compactor", ply, 30, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 1000)
 	end
 end)
 
 net.Receive("BuyFuel", function(len, ply)
 	if GetGlobalInt("money") >= 25 then
-		local trace = ply:GetEyeTrace().HitPos
-		local fuel = ents.Create("fuel")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 24
-		fuel:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		fuel:SetAngles(aimvector)
-		fuel:Spawn()
+		BuyEntity("fuel", ply, 24, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 25)
 	end
 end)
 
 net.Receive("BuyDrill", function(len, ply)
 	if GetGlobalInt("money") >= 1000 then
-		local trace = ply:GetEyeTrace().HitPos
-		local drill = ents.Create("drill")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 60
-		drill:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		drill:SetAngles(aimvector)
-		drill:Spawn()
+		BuyEntity("drill", ply, 60, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 1000)
 	end
 end)
 
 net.Receive("BuyCleaner", function(len, ply)
 	if GetGlobalInt("money") >= 500 then
-		local trace = ply:GetEyeTrace().HitPos
-		local cleaner = ents.Create("cleaner")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 36
-		cleaner:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 270
-		cleaner:SetAngles(aimvector)
-		cleaner:Spawn()
+		BuyEntity("cleaner", ply, 36, 270)
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
 	end
 end)
 
 net.Receive("BuyDieseler", function(len, ply)
 	if GetGlobalInt("money") >= 500 then
-		local trace = ply:GetEyeTrace().HitPos
-		local dieseler = ents.Create("dieselrefinery")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 36
-		dieseler:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		dieseler:SetAngles(aimvector)
-		dieseler:Spawn()
+		BuyEntity("dieselrefinery", ply, 36, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 500)
 	end
 end)
 
 net.Receive("BuyShredder", function(len, ply)
 	if GetGlobalInt("money") >= 1500 then
-		local trace = ply:GetEyeTrace().HitPos
-		local drill = ents.Create("shredder")
-		local plypos = ply:GetPos()
-		local delta = plypos - trace
-		delta.x = math.Clamp(delta.x, -200, 200)
-		delta.y = math.Clamp(delta.y, -200, 200)
-		local result = plypos - delta
-		result.z = plypos.z + 60
-		drill:SetPos(result)
-		local aimvector = ply:LocalEyeAngles()
-		aimvector.p = 0
-		aimvector.r = 0
-		aimvector.y = aimvector.y - 180
-		drill:SetAngles(aimvector)
-		drill:Spawn()
+		BuyEntity("shredder", ply, 60, 180)
 		SetGlobalInt("money", GetGlobalInt("money") - 1500)
 	end
 end)
