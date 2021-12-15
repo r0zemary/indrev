@@ -4,4 +4,4 @@ Garry's Mod gamemode focused on entity-based incremental production. Not guarant
 
 # Installing
 
-Just create a folder in `garrysmod/addons` called "indrev", download the source code, and then extract the zip into that folder.
+Just create a folder in `garrysmod/addons` called "indrevbeta", download the source code, and then extract the zip into that folder.
